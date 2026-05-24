@@ -1,6 +1,7 @@
 import os
 from google import genai
 from dotenv import load_dotenv
+from google.genai import types
 # Libraries
 
 # Load environment variables from .env file
@@ -10,10 +11,17 @@ load_dotenv()
 client = genai.Client() 
 
 def chatbot():
-    print("🤖 Gemini Chatbot started! Type 'exit' to quit.\n" + "-"*50)
+    print("🤖 Gemini Chatbot started! Type 'exit' or 'quit' to quit.\n" + "-"*50)
+
+    # Initial configuration message to set the context for the chatbot's responses
+    start_config = (
+        "You are a helpful and sincere assistant that provides accurate and concise information. Deliver responses in a friendly and engaging manner, ensuring clarity and relevance to the user's queries. Always strive to assist the user to the best of your ability while maintaining a positive and approachable tone."
+    )
+
+    config = types.GenerateContentConfig(system_instruction=start_config)
 
     # Create a new chat session with the specified model
-    chat = client.chats.create(model="gemini-3.5-flash")
+    chat = client.chats.create(model="gemini-3.5-flash", config=config)
 
     while True:
         user_input = input("You: ") # Input from the user
