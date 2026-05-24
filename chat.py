@@ -21,7 +21,13 @@ def chatbot():
     config = types.GenerateContentConfig(system_instruction=start_config)
 
     # Create a new chat session with the specified model
-    chat = client.chats.create(model="gemini-3.5-flash", config=config)
+    chat = client.chats.create(
+        model="gemini-3.5-flash",
+        config=config,
+        temperature=0.9, # Adjust the creativity of the responses
+        top_p=0.9, # Adjust the diversity of the responses
+        top_k=40, # Adjust the number of tokens to consider for generating responses
+        )
 
     while True:
         user_input = input("You: ") # Input from the user
